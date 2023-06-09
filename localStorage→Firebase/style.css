@@ -1,0 +1,96 @@
+.wrap{
+    width: 1200px;
+}
+
+.textbox-001-label,
+.textbox-001,
+#key,
+#起,
+#承,
+#転,
+#結 {
+    color: #333;
+}
+
+.textbox-001-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: .9em;
+}
+
+.textbox-001,
+#key,
+#起,
+#承,
+#転,
+#結 {
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 3px;
+    background: #eff1f5;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+
+
+
+
+
+#save,
+#clear {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 250px;
+    margin:20px auto;
+    padding: .9em 2em;
+    border: 1px solid #2589d0;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #2589d0;
+    font-size: 1em;
+}
+
+#save:hover,
+#clear:hover {
+    animation: anima-button-001 1s;
+}
+
+@keyframes anima-button-001 {
+    0% {
+        box-shadow: 0 0 0 0 rgb(37 137 208 / 50%);
+    }
+    100% {
+        box-shadow: 0 0 0 1.2em rgb(0 0 0 / 0%);
+    }
+}
+
+table{
+    width: 100%;
+  }
+  
+table th{
+    position: relative;
+    text-align: left;
+    width: 15%;
+}
+
+table th:after{
+    display: block;
+    content: "";
+    width: 30px;
+    height: 2px;
+    background-color: #333;
+    position: absolute;
+    top:calc(50% - 1px);
+    right:-15px;
+}
+
+table td{
+    text-align: left;
+    padding:7px 0 7px 30px;
+    width: 85%;
+}

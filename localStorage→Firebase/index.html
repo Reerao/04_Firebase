@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>あなたの物語</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="wrap">    
+
+    <h1>あなたの物語を伝えましょう</h1>
+
+    <label>
+        <span class="textbox-001-label">あなたの名前を教えてください</span>
+        <input type="text" id="key" placeholder=""/>
+    </label>
+
+    <label>
+    <span class="textbox-001-label">【起】あなたはどんな人ですか？</span>
+    <input type="text" id="起" placeholder=""/>
+    </label>
+
+    <label>
+        <span class="textbox-001-label">【承】誰のどんな課題を見つけましたか？</span>
+        <input type="text" id="承" placeholder=""/>
+    </label>
+
+    <label>
+        <span class="textbox-001-label">【転】その課題をどのように解決しますか？</span>
+        <input type="text" id="転" placeholder=""/>
+    </label>
+
+    <label>
+        <span class="textbox-001-label">【結】解決できるとどんな世界になりますか？</span>
+        <input type="text" id="結" placeholder=""/>
+    </label>
+
+
+    <button id="save">save</button>
+    <!-- <button id="clear">clear</button> -->
+
+    <table id="list">
+        <!-- ここに追加データが挿入される -->
+
+    </table>
+    
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
+        from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+    //APIキー
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app); //RealtimeDBに接続
+    const dbRef = ref(db, "story"); //RealtimeDB内の"story"を使う
+
+$("#save").on("click",function(){
+
+    const story = {
+        key : $("#key").val(),
+        value1 : $("#起").val(),
+        value2 : $("#承").val(),
+        value3 : $("#転").val(),
+        value4 : $("#結").val(),        
+    }
+
+    const newPostRef = push(dbRef);//Pushできる状況を作って（ユニークキーを生成）
+    set(newPostRef, story);//DBに値をセットする
+
+})
+
+//最初にデータ取得＆onSnapshotでリアルタイムにデータを取得
+onChildAdded(dbRef,function(data){
+            const msg = data.val();
+            const key = data.key;
+            console.log(msg,key)
+           
+            //テンプレートリテラルを使用して取得したデータを表示
+            let h =`
+            <tr>
+            <th>${msg.key}</th><td><p>私は${msg.value1}な人です</p>
+                        <p>そんな私は${msg.value2}という課題を見つけました</p>
+                        <p>その課題を${msg.value3}という方法で解決します</p>
+                        <p>そうすることで${msg.value4}を実現します！！！</p></br></td><td><button class="clear" data-key="${key}">clear</button></td>
+            </tr>
+
+            `
+                //ここで画面で表示するjQueryの操作をしています
+                $("#list").append(h);//#outputの最後に追加
+
+        });
+
+$(document).on("click", ".clear", function () {
+        const key = $(this).data("key");
+        console.log(key, "削除クリックイベント");
+        remove(ref(db, `story/${key}`));
+
+    remove(ref(db, `story/${key}`))
+    .then(() => {
+      // 画面上から対応する要素を削除
+      $(this).closest("tr").remove();
+    })
+    .catch((error) => {
+      console.error("削除エラー:", error);
+    });
+
+      });
+
+//データの削除がされたら画面から要素を削除する関数
+// onChildRemoved(dbRef, function (data) {
+//   const key = data.key; //dataは削除されたデータの中身を引数として持ってきているぽい
+//   console.log(key, "削除を反映")
+//   // 該当のメッセージ要素をDOMから削除
+//   document.getElementById(key).remove();
+// });
+
+
+
+onChildRemoved(dbRef, function(data) {
+  const key = data.key; // 削除されたデータのキーを取得
+  console.log(key, "削除を反映");
+
+  // 該当のメッセージ要素をDOMから削除
+  document.getElementById(key).remove();  
+
+});
+
+</script>
+
+</body>
+</html>
