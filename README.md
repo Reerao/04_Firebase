@@ -28,9 +28,10 @@
     ```
 
 - [参考記事]
+
   ****【JavaScript入門】getElementByIdを完全理解する3つのコツ！****https://www.sejuku.net/blog/27019
 
-  **Uncaught TypeError: Cannot (read set) property of nullの原因と対処法**https://web-engineer-wiki.com/javascript/error-property-of-null/
+  ****Uncaught TypeError: Cannot (read set) property of nullの原因と対処法****https://web-engineer-wiki.com/javascript/error-property-of-null/
 
   ****【コピペOK】CSSだけで実装できるおしゃれテーブルデザイン10つ****https://webliker.info/css/75964/
 
